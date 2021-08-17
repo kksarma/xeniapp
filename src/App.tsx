@@ -1,5 +1,6 @@
+import * as React from 'react';
+import Home from '../src/components/Home';
+
 export default function App() {
-  return (
-    <div className="App"> Hello World </div>
-  );
+  return (<Home />);
 }
