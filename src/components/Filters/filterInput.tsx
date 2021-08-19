@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -6,7 +6,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,28 +18,45 @@ const useStyles = makeStyles((theme: Theme) =>
       minWidth: 200,
     },
     buttonCss: {
-        marginTop: '18px'
+      marginTop: '18px'
     },
   }),
 );
 
-export default function FilterInput() {
+export default function FilterInput(props: any) {
   const classes = useStyles();
 
   const [status, setStatus] = React.useState('');
   const [date, setDate] = React.useState('');
   const [checked, setChecked] = React.useState(true);
+  const [filterOptions, setFilterOptions] = useState({
+    status: '',
+    date: '',
+    upcoming: null,
+  });
+
+  const { getFilterOptions } = props;
+
+  useEffect(() => {
+    getFilterOptions(filterOptions);
+  }, [filterOptions])
 
   const launchStatusChange = (event: any) => {
-    setStatus(event.target.value);
+    const { target: { value } } = event;
+    setStatus(value);
+    setFilterOptions({ ...filterOptions, status: value });
   };
 
   const launchDateChange = (event: any) => {
-    setDate(event.target.value);
+    const { target: { value } } = event;
+    setDate(value);
+    setFilterOptions({ ...filterOptions, date: value });
   };
 
   const handleCheck = (event: any) => {
-    setChecked(event.target.checked);
+    const { target: { checked } } = event;
+    setChecked(checked);
+    setFilterOptions({ ...filterOptions, upcoming: checked });
   };
 
   return (
@@ -57,9 +73,9 @@ export default function FilterInput() {
                 <MenuItem value="">
                     <em>None</em>
                 </MenuItem>
-                <MenuItem value={7}>Last Week</MenuItem>
-                <MenuItem value={31}>Last Month</MenuItem>
-                <MenuItem value={365}>Last Year</MenuItem>
+                <MenuItem value='last_week'>Last Week</MenuItem>
+                <MenuItem value='last_month'>Last Month</MenuItem>
+                <MenuItem value='last_year'>Last Year</MenuItem>
             </Select>
         </FormControl>
 
@@ -75,8 +91,8 @@ export default function FilterInput() {
                 <MenuItem value="">
                     <em>None</em>
                 </MenuItem>
-                <MenuItem value={0}>Failure</MenuItem>
-                <MenuItem value={1}>Success</MenuItem>
+                <MenuItem value='failure'>Failure</MenuItem>
+                <MenuItem value='success'>Success</MenuItem>
             </Select>
         </FormControl>
 
@@ -91,11 +107,6 @@ export default function FilterInput() {
             }
             label="Is it upcoming?"
         />
-        <div className={classes.buttonCss}>
-            <Button variant="contained" color="primary">
-                Filter
-            </Button>
-        </div>
     </>
   );
 }

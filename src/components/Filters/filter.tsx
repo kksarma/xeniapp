@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import FilterInput from './filterInput';
@@ -17,15 +17,35 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function FilterBox() {
+export default function FilterBox(props: any) {
   const classes = useStyles();
+  const { filterData } = props;
+
+  const [filterOptions, setFilterOptions] = useState({
+    status: '',
+    date: '',
+    upcoming: null,
+    search: ''
+  });
+
+  const getFilterOptions = (options: any) => {
+    setFilterOptions({ ...filterOptions, ...options });
+  }
+
+  useEffect(() => {
+    filterData(filterOptions);
+  }, [filterOptions]);
 
   return (
     <Grid container className={classes.root} spacing={4}>
       <Grid item xs={12}>
         <Grid container className={classes.control} justifyContent="center" spacing={4}>
-          <SearchInput />
-          <FilterInput />
+          <SearchInput 
+            getFilterOptions={getFilterOptions}
+          />
+          <FilterInput 
+            getFilterOptions={getFilterOptions}
+          />
         </Grid>
       </Grid>
     </Grid>

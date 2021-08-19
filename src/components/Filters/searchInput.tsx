@@ -13,13 +13,14 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function SearchInput() {
+export default function SearchInput(props: any) {
   const classes = useStyles();
+  const { getFilterOptions } = props;
 
   const [searchText, setSearchText] = useState('');
 
   const doSomethingWith = (text: string) => {
-    console.log('text ', text);
+    getFilterOptions({search: text});
   };
 
   return (
@@ -29,6 +30,7 @@ export default function SearchInput() {
             value={searchText}
             onChange={(newValue) => setSearchText(newValue)}
             onRequestSearch={() => doSomethingWith(searchText)}
+            onCancelSearch={() => doSomethingWith('')}
         />
       </div>
   );
