@@ -4,18 +4,16 @@ import Grid from '@material-ui/core/Grid';
 import FilterInput from './filterInput';
 import SearchInput from './searchInput';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      border: '2px solid #8a4141'
-    },
-    control: {
-      padding: theme.spacing(2),
-      backgroundColor: '#fdeded',
-    },
-  }),
-);
+const useStyles = makeStyles((theme: Theme) => createStyles({
+  root: {
+    flexGrow: 1,
+    border: '2px solid #8a4141',
+  },
+  control: {
+    padding: theme.spacing(2),
+    backgroundColor: '#fdeded',
+  },
+}));
 
 export default function FilterBox(props: any) {
   const classes = useStyles();
@@ -25,12 +23,12 @@ export default function FilterBox(props: any) {
     status: '',
     date: '',
     upcoming: null,
-    search: ''
+    search: '',
   });
 
   const getFilterOptions = (options: any) => {
     setFilterOptions({ ...filterOptions, ...options });
-  }
+  };
 
   useEffect(() => {
     filterData(filterOptions);
@@ -40,10 +38,10 @@ export default function FilterBox(props: any) {
     <Grid container className={classes.root} spacing={4}>
       <Grid item xs={12}>
         <Grid container className={classes.control} justifyContent="center" spacing={4}>
-          <SearchInput 
+          <SearchInput
             getFilterOptions={getFilterOptions}
           />
-          <FilterInput 
+          <FilterInput
             getFilterOptions={getFilterOptions}
           />
         </Grid>

@@ -16,30 +16,28 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      maxWidth: 345,
-    },
-    media: {
-      height: 0,
-      paddingTop: '56.25%', // 16:9
-    },
-    expand: {
-      transform: 'rotate(0deg)',
-      marginLeft: 'auto',
-      transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-      }),
-    },
-    expandOpen: {
-      transform: 'rotate(180deg)',
-    },
-    avatar: {
-      backgroundColor: red[500],
-    },
-  }),
-);
+const useStyles = makeStyles((theme: Theme) => createStyles({
+  root: {
+    maxWidth: 345,
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
+  avatar: {
+    backgroundColor: red[500],
+  },
+}));
 
 export default function MediaCard(data: any) {
   const classes = useStyles();
@@ -51,38 +49,40 @@ export default function MediaCard(data: any) {
   };
 
   const {
-    mission_name,
-    launch_date_utc,
-    launch_success,
-    links,
-    details,
-    launch_site
-   } = data.data;
+    data: {
+      mission_name: missonName,
+      launch_date_utc: launchDate,
+      launch_success: launchSuccess,
+      links,
+      details,
+      launch_site: launchSite,
+    },
+  } = data;
 
   return (
     <Card className={classes.root}>
       <CardHeader
-        avatar={
+        avatar={(
           <Avatar aria-label="recipe" className={classes.avatar}>
-            {launch_success ? 'S' : 'F'}
+            {launchSuccess ? 'S' : 'F'}
           </Avatar>
-        }
-        action={
+        )}
+        action={(
           <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
-        }
-        title={mission_name}
-        subheader={launch_date_utc}
+        )}
+        title={missonName}
+        subheader={launchDate}
       />
       <CardMedia
         className={classes.media}
         image={links?.mission_patch || defaultImage}
-        title={mission_name}
+        title={missonName}
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          {launch_site?.site_name_long || 'NA'}
+          {launchSite?.site_name_long || 'NA'}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

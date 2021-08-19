@@ -4,11 +4,11 @@ import Header from '../Header';
 import Footer from '../Footer';
 
 export default function PrimarySearchAppBar() {
-    return (
-        <div>
-            <Header />
-            <Main />
-            <Footer />
-        </div>
-    );
+  return (
+    <div>
+      <Header />
+      <Main />
+      <Footer />
+    </div>
+  );
 }

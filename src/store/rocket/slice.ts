@@ -1,6 +1,7 @@
+/* eslint no-param-reassign: 0 */
 import moment from 'moment';
 import { createSlice } from '@reduxjs/toolkit';
-import { rocketsInitialState } from '.';
+import rocketsInitialState from './initialState';
 
 export const rocketSlice = createSlice({
   name: 'rockets', // name used in action types
@@ -14,41 +15,45 @@ export const rocketSlice = createSlice({
     getAllRecordsError: (state, action) => {
       state.records = [];
       state.isSuccess = false;
-      state.error = action.payload.error
+      state.error = action.payload.error;
     },
-    setCards: (state, action) => {
+    setCards: (state) => {
       state.cards = state.records;
     },
     getFilterdRecords: (state, action) => {
-      let cardsCopy: any[] = state.cards;
-      const { status, date, upcoming, search } = action.payload;
+      let cardsCopy: any = state.cards;
+      const {
+        status, date, upcoming, search,
+      } = action.payload;
 
-      if(status) {
-        const type = status === 'success' ? true : false;
+      if (status) {
+        const type = status === 'success';
         cardsCopy = cardsCopy.filter((item: any) => item.launch_success === type);
-      } 
-      if(upcoming !== null) {
-        cardsCopy = cardsCopy.filter((item: any) => item.upcoming === upcoming);
-      } 
-      if(date) {
-        if(date === 'last_week') {
-          cardsCopy = cardsCopy.filter((inbox) => moment(inbox.launch_date_utc) > moment().subtract(7,'days').hours(0));
-        } else if(date === 'last_month') {
-          cardsCopy = cardsCopy.filter((inbox) => moment(inbox.launch_date_utc) > moment().subtract(30,'days').hours(0));
-        } else {
-          cardsCopy = cardsCopy.filter((inbox) => moment(inbox.launch_date_utc) > moment().subtract(360,'days').hours(0));
-        }
-      } 
-      if(search) {
-        const keyword = search.toLowerCase();
-        cardsCopy = cardsCopy.filter((item: any) => item.mission_name.toLowerCase().indexOf(keyword) > -1);
       }
-      if(!status && upcoming === null && !date && !search) {
+      if (upcoming !== null) {
+        cardsCopy = cardsCopy.filter((item: any) => item.upcoming === upcoming);
+      }
+      if (date) {
+        if (date === 'last_week') {
+          cardsCopy = cardsCopy.filter((inbox: any) => moment(inbox.launch_date_utc) > moment().subtract(7, 'days').hours(0));
+        } else if (date === 'last_month') {
+          cardsCopy = cardsCopy.filter((inbox: any) => moment(inbox.launch_date_utc) > moment().subtract(30, 'days').hours(0));
+        } else {
+          cardsCopy = cardsCopy.filter((inbox: any) => moment(inbox.launch_date_utc) > moment().subtract(360, 'days').hours(0));
+        }
+      }
+      if (search) {
+        const keyword = search.toLowerCase();
+        cardsCopy = cardsCopy.filter(
+          (item: any) => item.mission_name.toLowerCase().indexOf(keyword) > -1,
+        );
+      }
+      if (!status && upcoming === null && !date && !search) {
         state.cards = state.records;
       } else {
         state.cards = cardsCopy;
       }
-    }
+    },
   },
 });
 export const { getFilterdRecords, setCards } = rocketSlice.actions;
