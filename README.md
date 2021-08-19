@@ -20,6 +20,11 @@ Xeniaap uses a number of open source projects to work properly:
 - Filter rockets by status, date and upcoming fields
 - Click on cards more icon to see the details
 
+## Live running app
+
+```sh
+https://xeniapp-dev.herokuapp.com/
+```
 
 ## Clone repository
 
